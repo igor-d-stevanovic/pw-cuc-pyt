@@ -59,10 +59,10 @@ jobs:
 
       # Publish Allure report to GitHub Pages
       - name: Publish Allure Report
-        uses: allure-actions/allure-report@v1
+        uses: simple-elf/allure-report-action@v1.8
         if: github.ref == 'refs/heads/main'
         with:
-          results_dir: allure-results
-          report_dir: allure-report
+          allure_results: allure-results
           gh_pages: gh-pages
+          report_url: https://igor-d-stevanovic.github.io/pw-cuc-pyt
           keep_reports: 20
