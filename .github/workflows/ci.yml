@@ -24,12 +24,44 @@ jobs:
           pip install -r requirements.txt
           playwright install --with-deps
 
+      # Download previous Allure history (if exists)
+      - name: Download Allure history
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-history
+          path: allure-history
+        continue-on-error: true
+
+      # Copy history to new results (if exists)
+      - name: Copy Allure history
+        run: |
+          if [ -d allure-history/history ]; then
+            mkdir -p allure-results/history
+            cp -r allure-history/history allure-results/
+          fi
+
       - name: Run Behave tests with Allure
         run: |
           behave -f allure_behave.formatter:AllureFormatter -o allure-results
+
+      # Upload new Allure history for next run
+      - name: Upload Allure history
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-history
+          path: allure-results/history
 
       - name: Upload Allure results
         uses: actions/upload-artifact@v4
         with:
           name: allure-results
           path: allure-results
+
+      # Publish Allure report to GitHub Pages
+      - name: Publish Allure Report
+        uses: mikepenz/action-allure-report@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          allure_results: allure-results
+          gh_pages: gh-pages
+          publish: true
