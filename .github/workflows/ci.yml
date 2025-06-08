@@ -59,7 +59,7 @@ jobs:
 
       # Publish Allure report to GitHub Pages
       - name: Publish Allure Report
-        uses: mikepenz/action-allure-report@v2
+        uses: mikepenz/action-allure-report@v1
         if: github.ref == 'refs/heads/main'
         with:
           allure_results: allure-results
