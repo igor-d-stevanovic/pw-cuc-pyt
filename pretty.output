@@ -1,0 +1,17 @@
+Feature: Login # features/login.feature:1
+
+  Scenario: Unsuccessful login with invalid credentials                                                                   # features/login.feature:3
+    Given the user is on the login page                                                                                   # features/steps/login_steps.py:4
+    When the user logs in with username "invalid_user" and password "wrong_password"                                      # features/steps/login_steps.py:9
+    Then an error message "Epic sadface: Username and password do not match any user in this service" should be displayed # features/steps/login_steps.py:18
+
+  Scenario: Unsuccessful login with empty username                                 # features/login.feature:8
+    Given the user is on the login page                                            # features/steps/login_steps.py:4
+    When the user logs in with username "<empty>" and password "some_password"     # features/steps/login_steps.py:9
+    Then an error message "Epic sadface: Username is required" should be displayed # features/steps/login_steps.py:18
+
+  Scenario: Unsuccessful login with empty password                                 # features/login.feature:13
+    Given the user is on the login page                                            # features/steps/login_steps.py:4
+    When the user logs in with username "standard_user" and password "<empty>"     # features/steps/login_steps.py:9
+    Then an error message "Epic sadface: Password is required" should be displayed # features/steps/login_steps.py:18
+
